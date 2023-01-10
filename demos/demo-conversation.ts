@@ -37,7 +37,10 @@ async function main() {
   res = await oraPromise(
     api.sendMessage(prompt2, {
       conversationId: res.conversationId,
-      parentMessageId: res.messageId
+      parentMessageId: res.messageId,
+      onProgress: r => {
+        console.log('\n recv new data ' + r + '\n')
+      }
     }),
     {
       text: prompt2

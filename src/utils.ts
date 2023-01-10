@@ -172,6 +172,10 @@ export async function browserPostEventStream(
               convoResponseEvent.message?.content?.parts?.[0]
             if (partialResponse) {
               response = partialResponse
+              if (typeof window['onProgress'] === 'function') {
+                // @ts-ignore
+                window.onProgress(partialResponse);
+              } 
             }
           } catch (err) {
             console.warn('fetchSSE onMessage unexpected error', err)

@@ -474,10 +474,13 @@ export class ChatGPTAPIBrowser extends AChatGPTAPI {
       parentMessageId = uuidv4(),
       messageId = uuidv4(),
       action = 'next',
-      timeoutMs
-      // TODO
-      // onProgress
+      timeoutMs,
+      onProgress
     } = opts
+
+    if (this._page.window['onProgress'] === undefined && onProgress !== undefined) {
+      this._page.exposeFunction('onProgress', onProgress);
+    }
 
     const url = `https://chat.openai.com/backend-api/conversation`
     const body: types.ConversationJSONBody = {
