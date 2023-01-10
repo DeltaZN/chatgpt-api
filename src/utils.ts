@@ -174,7 +174,7 @@ export async function browserPostEventStream(
               response = partialResponse
               if (typeof window['onProgress'] === 'function') {
                 // @ts-ignore
-                window.onProgress(partialResponse);
+                window.onProgress(messageId, partialResponse);
               } 
             }
           } catch (err) {

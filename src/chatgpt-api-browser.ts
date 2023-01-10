@@ -111,6 +111,8 @@ export class ChatGPTAPIBrowser extends AChatGPTAPI {
     }
   }
 
+  private onProgressMap = new Map<string, (arg: types.ChatResponse) => void>();
+
   override async initSession() {
     if (this._browser) {
       await this.closeSession()
@@ -126,6 +128,10 @@ export class ChatGPTAPIBrowser extends AChatGPTAPI {
       })
       this._page =
         (await this._browser.pages())[0] || (await this._browser.newPage())
+
+      this._page.exposeFunction('onProgress', (messageId: string, response: types.ChatResponse) => {
+        this.onProgressMap.get(messageId)?.(response);
+      });
 
       if (this._proxyServer && this._proxyServer.includes('@')) {
         try {
@@ -465,8 +471,6 @@ export class ChatGPTAPIBrowser extends AChatGPTAPI {
   //   }
   // }
 
-  private onProgressDefined = false;
-
   override async sendMessage(
     message: string,
     opts: types.SendMessageOptions = {}
@@ -480,9 +484,8 @@ export class ChatGPTAPIBrowser extends AChatGPTAPI {
       onProgress
     } = opts
 
-    if (onProgress !== undefined && !this.onProgressDefined) {
-      this.onProgressDefined = true;
-      this._page.exposeFunction('onProgress', onProgress);
+    if (onProgress !== undefined) {
+      this.onProgressMap.set(messageId, onProgress);
     }
 
     const url = `https://chat.openai.com/backend-api/conversation`
