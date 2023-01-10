@@ -465,6 +465,8 @@ export class ChatGPTAPIBrowser extends AChatGPTAPI {
   //   }
   // }
 
+  private onProgressDefined = false;
+
   override async sendMessage(
     message: string,
     opts: types.SendMessageOptions = {}
@@ -478,7 +480,8 @@ export class ChatGPTAPIBrowser extends AChatGPTAPI {
       onProgress
     } = opts
 
-    if (this._page.window['onProgress'] === undefined && onProgress !== undefined) {
+    if (onProgress !== undefined && !this.onProgressDefined) {
+      this.onProgressDefined = true;
       this._page.exposeFunction('onProgress', onProgress);
     }
 
