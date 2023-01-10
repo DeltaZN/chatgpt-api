@@ -489,6 +489,7 @@ export class ChatGPTAPIBrowser extends AChatGPTAPI {
     } = opts
 
     if (onProgress !== undefined) {
+      console.log('onProgress', messageId)
       this.onProgressMap.set(messageId, onProgress)
     }
 

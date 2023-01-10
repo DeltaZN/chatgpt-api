@@ -104,6 +104,7 @@ export async function browserPostEventStream(
 
   let conversationId: string = body?.conversation_id
   let messageId: string = body?.messages?.[0]?.id
+  const inistalMessageId = messageId
   let response = ''
 
   try {
@@ -174,8 +175,8 @@ export async function browserPostEventStream(
               response = partialResponse
               if (typeof window['onProgress'] === 'function') {
                 // @ts-ignore
-                window.onProgress(messageId, partialResponse);
-              } 
+                window.onProgress(inistalMessageId, partialResponse)
+              }
             }
           } catch (err) {
             console.warn('fetchSSE onMessage unexpected error', err)
