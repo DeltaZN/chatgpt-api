@@ -111,7 +111,7 @@ export class ChatGPTAPIBrowser extends AChatGPTAPI {
     }
   }
 
-  private onProgressMap = new Map<string, (arg: types.ChatResponse) => void>();
+  private onProgressMap = new Map<string, (arg: types.ChatResponse) => void>()
 
   override async initSession() {
     if (this._browser) {
@@ -128,10 +128,6 @@ export class ChatGPTAPIBrowser extends AChatGPTAPI {
       })
       this._page =
         (await this._browser.pages())[0] || (await this._browser.newPage())
-
-      this._page.exposeFunction('onProgress', (messageId: string, response: types.ChatResponse) => {
-        this.onProgressMap.get(messageId)?.(response);
-      });
 
       if (this._proxyServer && this._proxyServer.includes('@')) {
         try {
@@ -215,6 +211,14 @@ export class ChatGPTAPIBrowser extends AChatGPTAPI {
     if (!(await this.getIsAuthenticated())) {
       throw new types.ChatGPTError('Failed to authenticate session')
     }
+
+    this._page.exposeFunction(
+      'onProgress',
+      (messageId: string, response: types.ChatResponse) => {
+        console.log(messageId, response)
+        this.onProgressMap.get(messageId)?.(response)
+      }
+    )
 
     if (this._minimize) {
       return minimizePage(this._page)
@@ -485,7 +489,7 @@ export class ChatGPTAPIBrowser extends AChatGPTAPI {
     } = opts
 
     if (onProgress !== undefined) {
-      this.onProgressMap.set(messageId, onProgress);
+      this.onProgressMap.set(messageId, onProgress)
     }
 
     const url = `https://chat.openai.com/backend-api/conversation`

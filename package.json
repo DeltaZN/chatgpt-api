@@ -1,9 +1,8 @@
 {
-  "name": "chatgpt",
-  "version": "3.3.12",
+  "name": "@dx-private/chatgpt",
+  "version": "0.0.3",
   "description": "Node.js client for the unofficial ChatGPT API.",
   "author": "Travis Fischer <travis@transitivebullsh.it>",
-  "repository": "transitive-bullshit/chatgpt-api",
   "license": "MIT",
   "type": "module",
   "source": "./src/index.ts",
@@ -98,5 +97,8 @@
     "ai",
     "ml",
     "bot"
-  ]
+  ],
+  "publishConfig": {
+    "registry": "https://nexus.in.devexperts.com/repository/npm-dx-private/"
+  }
 }
