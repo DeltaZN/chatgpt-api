@@ -1,6 +1,6 @@
 {
   "name": "@dx-private/chatgpt",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "Node.js client for the unofficial ChatGPT API.",
   "author": "Travis Fischer <travis@transitivebullsh.it>",
   "license": "MIT",
